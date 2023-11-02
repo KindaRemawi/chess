@@ -10,6 +10,7 @@
  .highlight { background-color: #f0e68c; }
 </style>
 </head>
+
 <body>
 <table id="board"></table>
 <script>
