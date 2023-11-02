@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chess</title>
+<style>
+ body { font-family: Arial, sans-serif; }
+ table { margin: 0 auto; border-collapse: collapse; }
+ td { width: 50px; height: 50px; border: 1px solid #ccc; text-align: center; }
+ .piece { cursor: pointer; }
+ .highlight { background-color: #f0e68c; }
+</style>
+</head>
+<body>
+<table id="board"></table>
+<script>
+ let board,
+    turn = 'white',
+    highlighted = [],
+    check,
+    checkmate;
+
+ function reset() {
+    board = Array.from({ length: 8 }, () => Array(8).fill(null));
+    const pieces = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
+    const color = ['black', 'white'];
+
+    for (let i = 0; i < 8; i++) {
+      board[1][i] = { type: 'pawn', color: color[0] };
+      board[6][i] = { type: 'pawn', color: color[1] };
+    }
+
+    for (let i = 0; i < 8; i++) {
+      board[0][i] = { type: pieces[i], color: color[0] };
+      board[7][i] = { type: pieces[7 - i], color: color[1] };
+    }
+ }
+
+ function display() {
+    let html = '';
+    for (let row of board) {
+      html += '<tr>';
+      for (let piece of row) {
+        if (piece) {
+          html += `<td onclick="move('${piece.color}', '${piece.type}', ${[row.indexOf(piece), row.indexOf(piece)]})" class="piece">${piece.color[0].toUpperCase()}${piece.type}</td>`;
+        } else {
+          html += '<td></td>';
+        }
+      }
+      html += '</tr>';
+    }
+    document.getElementById('board').innerHTML = html;
+ }
+
+ function move(color, type, from, to) {
+    // make move
+    let movedPiece = board[from[0]][from[1]];
+    board[from[0]][from[1]] = null;
+    board[to[0]][to[1]] = { type: type, color: color };
+
+    // remove moved piece if pinned
+    // ...
+
+    // update position
+    turn = turn === 'white' ? 'black' : 'white';
+    display();
+
+    // check for check/checkmate
+    // ...
+ }
+
+ reset();
+ display();
+</script>
+</body>
+</html>
